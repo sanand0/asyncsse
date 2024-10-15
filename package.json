@@ -1,0 +1,45 @@
+{
+  "name": "asyncsse",
+  "version": "1.0.0",
+  "description": "Fetch Server-Sent Events (SSE) as an async iterable",
+  "main": "dist/asyncsse.js",
+  "type": "module",
+  "module": "index.js",
+  "scripts": {
+    "test": "deno test --allow-net",
+    "build": "npx -y esbuild index.js --bundle --minify --format=esm --outfile=dist/asyncsse.js"
+  },
+  "keywords": [
+    "sse",
+    "fetch",
+    "async",
+    "iterable",
+    "server-sent-events",
+    "streaming",
+    "event-stream",
+    "generator",
+    "http-streaming",
+    "real-time",
+    "eventsource"
+  ],
+  "author": "S Anand <root.node@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gramener/asyncsse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gramener/asyncsse/issues"
+  },
+  "homepage": "https://github.com/gramener/asyncsse#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist/asyncsse.js",
+    "index.js"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {}
+}
