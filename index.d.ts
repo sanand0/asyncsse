@@ -17,10 +17,19 @@ export interface SSEEvent {
 }
 
 /**
+ * Configuration options for the SSE stream
+ */
+export interface SSEConfig {
+  /** Callback function called with the Response object after successful fetch. Can return any value. If the callback returns a promise, it will be awaited before continuing the stream. */
+  onResponse?: (response: Response) => any;
+}
+
+/**
  * asyncSSE yields events when streaming from an SSE endpoint.
  *
  * @param request - The URL or Request object for the SSE endpoint.
  * @param options - Optional RequestInit object to configure the fetch request.
+ * @param config - Optional configuration object for the SSE stream.
  * @returns An AsyncGenerator that yields SSEEvent objects.
  *
  * @example
@@ -28,4 +37,8 @@ export interface SSEEvent {
  *   console.log(event);
  * }
  */
-export function asyncSSE(request: string | Request, options?: RequestInit): AsyncGenerator<SSEEvent, void, unknown>;
+export function asyncSSE(
+  request: string | Request,
+  options?: RequestInit,
+  config?: SSEConfig
+): AsyncGenerator<SSEEvent, void, unknown>;

@@ -1,6 +1,6 @@
 {
   "name": "asyncsse",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Fetch Server-Sent Events (SSE) as an async iterable",
   "main": "dist/asyncsse.js",
   "type": "module",

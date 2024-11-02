@@ -50,12 +50,14 @@ import { asyncSSE } from "asyncsse";
 
 ## API
 
-### `asyncSSE(url: string, options?: RequestInit): AsyncIterable<SSEEvent>`
+### `asyncSSE(url: string, options?: RequestInit, config?: SSEConfig): AsyncIterable<SSEEvent>`
 
 Fetches Server-Sent Events from the specified URL and returns an async iterable.
 
 - `url`: The URL to fetch SSE from
 - `options`: Optional [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters)
+- `config`: Optional configuration object
+  - `onResponse`: Async callback to inspect or modify the Response before streaming begins. Useful for checking headers or status codes.
 
 Returns an async iterable that yields `SSEEvent` objects.
 
@@ -80,11 +82,22 @@ const options = {
   }),
 };
 
+const config = {
+  onResponse: async (response) => {
+    console.log("Requests remaining:", response.headers.get("X-Ratelimit-Remaining-Requests"));
+  },
+};
+
 // Fetch the stream, event by event
-for await (const event of asyncSSE(url, options)) {
+for await (const event of asyncSSE(url, options, config)) {
   console.log(JSON.parse(event.data));
 }
 ```
+
+## Changelog
+
+- 1.1.0: Add `config.onResponse` callback
+- 1.0.0: Initial release
 
 ## Contributing
 
