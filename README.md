@@ -97,7 +97,7 @@ for await (const event of asyncSSE(url, options, config)) {
 
 ## Changelog
 
-- 1.2.0: Add `config.fetch` parameter for custom fetch implementations
+- 1.2.1: Add `config.fetch` parameter for custom fetch implementations
 - 1.1.0: Add `config.onResponse` callback
 - 1.0.0: Initial release
 

@@ -1,6 +1,6 @@
 {
   "name": "asyncsse",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Fetch Server-Sent Events (SSE) as an async iterable",
   "main": "dist/asyncsse.js",
   "type": "module",
@@ -8,7 +8,8 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "deno test --allow-net",
-    "build": "npx -y esbuild index.js --bundle --minify --format=esm --outfile=dist/asyncsse.js"
+    "build": "npx -y esbuild index.js --bundle --minify --format=esm --outfile=dist/asyncsse.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "sse",
@@ -37,7 +38,7 @@
     "node": ">=14.0.0"
   },
   "files": [
-    "dist/asyncsse.js",
+    "dist/",
     "index.js",
     "index.d.ts"
   ],
