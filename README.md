@@ -95,8 +95,34 @@ for await (const event of asyncSSE(url, options, config)) {
 }
 ```
 
+## Testing with Text Input
+
+You can directly stream SSE events from a text string using the provided `fetchText` helper:
+
+```javascript
+import { asyncSSE } from "https://cdn.jsdelivr.net/npm/asyncsse@1";
+import { fetchText } from "https://cdn.jsdelivr.net/npm/asyncsse@1/dist/fetchtext.js";
+
+const text = "data: Hello\n\ndata: World\n\n";
+
+// Stream events from text
+for await (const event of asyncSSE(text, {}, { fetch: fetchText })) {
+  console.log(event);
+}
+```
+
+This outputs:
+
+```
+{ data: "Hello" }
+{ data: "World" }
+```
+
+This is particularly useful for testing SSE parsing without making actual HTTP requests.
+
 ## Changelog
 
+- 1.3.0: Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
 - 1.2.1: Add `config.fetch` parameter for custom fetch implementations
 - 1.1.0: Add `config.onResponse` callback
 - 1.0.0: Initial release

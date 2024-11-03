@@ -1,4 +1,5 @@
-import { asyncSSE } from "./index.js";
+import { asyncSSE } from "./index.ts";
+import { fetchText } from "./fetchtext.ts";
 
 const PORT = 8080;
 const BASE_URL = `http://localhost:${PORT}`;
@@ -6,7 +7,7 @@ const BASE_URL = `http://localhost:${PORT}`;
 function assertEquals(actual, expected, message) {
   if (JSON.stringify(actual) === JSON.stringify(expected)) return;
   throw new Error(
-    message || `Expected:\n${JSON.stringify(expected, null, 2)}. Actual:\n${JSON.stringify(actual, null, 2)}`
+    message || `Expected:\n${JSON.stringify(expected, null, 2)}. Actual:\n${JSON.stringify(actual, null, 2)}`,
   );
 }
 
@@ -30,7 +31,7 @@ Deno.serve({ port: PORT }, (req) => {
             }, 0);
           },
         }),
-        { headers: { "Content-Type": "text/event-stream" } }
+        { headers: { "Content-Type": "text/event-stream" } },
       );
     case "/empty":
       return new Response("", {
@@ -208,12 +209,6 @@ Deno.test("asyncSSE - sync and async onResponse callbacks", async () => {
 });
 
 Deno.test("asyncSSE - custom fetch implementation", async () => {
-  let fetchCalled = false;
-  const customFetch = async (...args) => {
-    fetchCalled = true;
-    return fetch(...args);
-  };
-
-  await Array.fromAsync(asyncSSE(`${BASE_URL}/success`, {}, { fetch: customFetch }));
-  assertEquals(fetchCalled, true);
+  const events = await Array.fromAsync(asyncSSE("data: Hello\n\ndata: World\n\n", {}, { fetch: fetchText }));
+  assertEquals(events, [{ data: "Hello" }, { data: "World" }]);
 });
