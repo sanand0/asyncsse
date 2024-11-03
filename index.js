@@ -15,7 +15,7 @@ export async function* asyncSSE(request, options = {}, config = {}) {
   let buffer = "";
 
   try {
-    response = await fetch(request, options);
+    response = await (config.fetch ?? fetch)(request, options);
     if (config.onResponse) await config.onResponse(response);
 
     if (!response.ok) {

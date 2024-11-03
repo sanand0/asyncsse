@@ -206,3 +206,14 @@ Deno.test("asyncSSE - sync and async onResponse callbacks", async () => {
   await Array.fromAsync(asyncSSE(`${BASE_URL}/success`, {}, asyncConfig));
   assertEquals(asyncStatus, 200);
 });
+
+Deno.test("asyncSSE - custom fetch implementation", async () => {
+  let fetchCalled = false;
+  const customFetch = async (...args) => {
+    fetchCalled = true;
+    return fetch(...args);
+  };
+
+  await Array.fromAsync(asyncSSE(`${BASE_URL}/success`, {}, { fetch: customFetch }));
+  assertEquals(fetchCalled, true);
+});

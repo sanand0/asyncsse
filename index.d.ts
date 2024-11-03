@@ -20,7 +20,9 @@ export interface SSEEvent {
  * Configuration options for the SSE stream
  */
 export interface SSEConfig {
-  /** Callback function called with the Response object after successful fetch. Can return any value. If the callback returns a promise, it will be awaited before continuing the stream. */
+  /** Custom fetch implementation. Defaults to global fetch if not provided. */
+  fetch?: typeof fetch;
+  /** Callback function called with the Response object after successful fetch */
   onResponse?: (response: Response) => any;
 }
 

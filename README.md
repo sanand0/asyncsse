@@ -57,7 +57,8 @@ Fetches Server-Sent Events from the specified URL and returns an async iterable.
 - `url`: The URL to fetch SSE from
 - `options`: Optional [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters)
 - `config`: Optional configuration object
-  - `onResponse`: Async callback to inspect or modify the Response before streaming begins. Useful for checking headers or status codes.
+  - `fetch`: Custom fetch implementation (defaults to global fetch)
+  - `onResponse`: Async callback to inspect or modify the Response before streaming begins
 
 Returns an async iterable that yields `SSEEvent` objects.
 
@@ -96,6 +97,7 @@ for await (const event of asyncSSE(url, options, config)) {
 
 ## Changelog
 
+- 1.2.0: Add `config.fetch` parameter for custom fetch implementations
 - 1.1.0: Add `config.onResponse` callback
 - 1.0.0: Initial release
 
