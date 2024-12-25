@@ -122,6 +122,7 @@ This is particularly useful for testing SSE parsing without making actual HTTP r
 
 ## Changelog
 
+- 1.3.2: Update repo links
 - 1.3.1: Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
 - 1.2.1: Add `config.fetch` parameter for custom fetch implementations
 - 1.1.0: Add `config.onResponse` callback

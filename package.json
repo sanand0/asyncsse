@@ -1,6 +1,6 @@
 {
   "name": "asyncsse",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Fetch Server-Sent Events (SSE) as an async iterable",
   "type": "module",
   "main": "dist/asyncsse.js",
@@ -40,12 +40,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gramener/asyncsse.git"
+    "url": "https://github.com/sanand0/asyncsse.git"
   },
   "bugs": {
-    "url": "https://github.com/gramener/asyncsse/issues"
+    "url": "https://github.com/sanand0/asyncsse/issues"
   },
-  "homepage": "https://github.com/gramener/asyncsse#readme",
+  "homepage": "https://github.com/sanand0/asyncsse#readme",
   "engines": {
     "node": ">=14.0.0"
   },
