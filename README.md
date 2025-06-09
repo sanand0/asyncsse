@@ -146,6 +146,32 @@ for await (const { data, error } of asyncSSE(url, options, config)) {
 }
 ```
 
+## Testing with Text Input
+
+You can directly stream SSE events from a text string using the provided `fetchText` helper:
+
+```javascript
+import { asyncSSE } from "https://cdn.jsdelivr.net/npm/asyncsse@1";
+import { fetchText } from "https://cdn.jsdelivr.net/npm/asyncsse@1/dist/fetchtext.js";
+You can run the tests using Deno:
+
+const text = "data: Hello\n\ndata: World\n\n";
+
+// Stream events from text
+for await (const event of asyncSSE(text, {}, { fetch: fetchText })) {
+  console.log(event);
+}
+```
+
+This outputs:
+
+```
+{ data: "Hello" }
+{ data: "World" }
+```
+
+This is particularly useful for testing SSE parsing without making actual HTTP requests.
+
 ## Tests
 
 You can run the tests using Deno:
