@@ -1,4 +1,4 @@
-import { asyncSSE } from "./index.ts";
+import { asyncSSE } from "./asyncsse.ts";
 import { fetchText } from "./fetchtext.ts";
 
 const PORT = 8080;

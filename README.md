@@ -28,8 +28,9 @@ npm install asyncsse
 
   // Example usage
   (async () => {
-    for await (const event of asyncSSE("https://api.example.com/sse")) {
-      console.log(event);
+    for await (const { data, error } of asyncSSE("https://api.example.com/sse")) {
+      if (error) throw new Error(error);
+      console.log(data);
     }
   })();
 </script>
@@ -42,8 +43,9 @@ import { asyncSSE } from "asyncsse";
 
 // Example usage
 (async () => {
-  for await (const event of asyncSSE("https://api.example.com/sse")) {
-    console.log(event);
+  for await (const { data, error } of asyncSSE("https://api.example.com/sse")) {
+    if (error) throw new Error(error);
+    console.log(data);
   }
 })();
 ```
@@ -61,6 +63,54 @@ Fetches Server-Sent Events from the specified URL and returns an async iterable.
   - `onResponse`: Async callback to inspect or modify the Response before streaming begins
 
 Returns an async iterable that yields `SSEEvent` objects.
+
+Events can have fields like `event`, `data`, `id`, and `retry` like this:
+
+```
+event: userupdate
+id: 123
+data: {"username": "testuser", "status": "online"}
+retry: 5000
+
+data: Simple message
+```
+
+`asyncSSE` parses these into a single object.
+
+```javascript
+(async () => {
+  for await (const event of asyncSSE(sseStream, {})) {
+    console.log(event.event, event.data, event.id, event.retry);
+  }
+})();
+```
+
+This would output:
+
+```
+{ event: "userupdate", id: "123", data: '{"username": "testuser", "status": "online"}', retry: "5000" }
+{ data: "Simple message" }
+```
+
+**Comment lines** with a colon (`:`) are comments and are ignored by the parser. They will not result in an event.
+
+```
+: This is a comment, it will be ignored
+data: First event
+: Another comment
+event: important
+data: Second event
+id: 456
+```
+
+This would output:
+
+```
+{ data: "First event" }
+{ event: "important", data: "Second event", id: "456" }
+```
+
+**`retry` fields** suggest a reconnection time (in milliseconds). `asyncSSE` itself does not automatically handle reconnection based on this value; it simply parses and provides it. Wait for this duration and reconnect if the connection is lost.
 
 ## Example: OpenAI Chat Completions
 
@@ -90,8 +140,9 @@ const config = {
 };
 
 // Fetch the stream, event by event
-for await (const event of asyncSSE(url, options, config)) {
-  console.log(JSON.parse(event.data));
+for await (const { data, error } of asyncSSE(url, options, config)) {
+  if (error) throw new Error(error);
+  console.log(JSON.parse(data));
 }
 ```
 
@@ -102,6 +153,7 @@ You can directly stream SSE events from a text string using the provided `fetchT
 ```javascript
 import { asyncSSE } from "https://cdn.jsdelivr.net/npm/asyncsse@1";
 import { fetchText } from "https://cdn.jsdelivr.net/npm/asyncsse@1/dist/fetchtext.js";
+You can run the tests using Deno:
 
 const text = "data: Hello\n\ndata: World\n\n";
 
@@ -120,8 +172,17 @@ This outputs:
 
 This is particularly useful for testing SSE parsing without making actual HTTP requests.
 
+## Tests
+
+You can run the tests using Deno:
+
+```bash
+deno test --allow-net
+```
+
 ## Changelog
 
+- 1.3.3: Improved documentation for error handling and added more examples.
 - 1.3.2: Update repo links
 - 1.3.1: Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
 - 1.2.1: Add `config.fetch` parameter for custom fetch implementations
