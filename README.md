@@ -62,6 +62,129 @@ Fetches Server-Sent Events from the specified URL and returns an async iterable.
 
 Returns an async iterable that yields `SSEEvent` objects.
 
+### Error Handling
+
+When fetch failures or other errors occur during the SSE stream, the iterator will yield an object of the form `{ error: ... }`. You can catch these errors by wrapping your `for await...of` loop in a `try...catch` block.
+
+Here's an example of how to handle these errors:
+
+```javascript
+import { asyncSSE } from "asyncsse";
+
+// Example usage
+(async () => {
+  try {
+    for await (const event of asyncSSE("https://api.example.com/sse")) {
+      if (event.error) {
+        console.error("Error during SSE stream:", event.error);
+        // Optionally, break the loop or implement retry logic
+        break;
+      }
+      console.log(event);
+    }
+  } catch (error) {
+    console.error("Failed to connect to SSE stream:", error);
+  }
+})();
+```
+
+## More Examples
+
+Here are a few more examples demonstrating common Server-Sent Event scenarios:
+
+### Handling Events with Multiple Fields
+
+Events can have fields like `event`, `data`, `id`, and `retry`. `asyncSSE` parses these into a single object.
+
+```javascript
+import { asyncSSE } from "asyncsse";
+import { fetchText } from "asyncsse/fetchtext"; // Assuming fetchText is available
+
+// Simulate an SSE stream with a multi-field event
+const sseStream = `
+event: userupdate
+id: 123
+data: {"username": "testuser", "status": "online"}
+retry: 5000
+
+data: Simple message
+`;
+
+(async () => {
+  // Use fetchText for this example; in a real scenario, this would be a URL
+  for await (const event of asyncSSE(sseStream, {}, { fetch: fetchText })) {
+    console.log(event);
+  }
+})();
+```
+
+This would output:
+
+```
+{ event: "userupdate", id: "123", data: '{"username": "testuser", "status": "online"}', retry: "5000" }
+{ data: "Simple message" }
+```
+
+### Comment Lines
+
+Lines starting with a colon (`:`) are comments and are ignored by the parser. They will not result in an event.
+
+```javascript
+import { asyncSSE } from "asyncsse";
+import { fetchText } from "asyncsse/fetchtext";
+
+const sseStreamWithComments = `
+: This is a comment, it will be ignored
+data: First event
+: Another comment
+event: important
+data: Second event
+id: 456
+`;
+
+(async () => {
+  for await (const event of asyncSSE(sseStreamWithComments, {}, { fetch: fetchText })) {
+    console.log(event);
+  }
+})();
+```
+
+This would output:
+
+```
+{ data: "First event" }
+{ event: "important", data: "Second event", id: "456" }
+```
+
+### Retry Field
+
+If the server sends a `retry` field, it will be included in the event object. This suggests a reconnection time (in milliseconds) that the client should wait before attempting to reconnect if the connection is lost. `asyncSSE` itself does not automatically handle reconnection based on this value; it simply parses and provides it.
+
+```javascript
+import { asyncSSE } from "asyncsse";
+import { fetchText } from "asyncsse/fetchtext";
+
+const sseStreamWithRetry = `
+retry: 10000
+data: Some data
+`;
+
+(async () => {
+  for await (const event of asyncSSE(sseStreamWithRetry, {}, { fetch: fetchText })) {
+    console.log(event);
+  }
+})();
+```
+
+This would output:
+
+```
+{ retry: "10000" }
+{ data: "Some data" }
+```
+Note: The SSE specification states that a `retry` field alone doesn't form an event. It's usually sent with data or as a standalone directive that might affect subsequent reconnections. `asyncSSE` will yield it as a property of the next event if it's part of a multi-line event, or as its own object if it's the only thing in a dispatch. The example from `test.js` (`retry: 10000\n\n`) results in `{ retry: "10000" }`. If it was `retry: 10000\ndata: hello\n\n`, the output would be `{ retry: "10000", data: "hello" }`.
+
+
 ## Example: OpenAI Chat Completions
 
 ```javascript
@@ -122,6 +245,7 @@ This is particularly useful for testing SSE parsing without making actual HTTP r
 
 ## Changelog
 
+- 1.3.3: Improved documentation for error handling and added more examples.
 - 1.3.2: Update repo links
 - 1.3.1: Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
 - 1.2.1: Add `config.fetch` parameter for custom fetch implementations
