@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/asyncsse.svg)](https://www.npmjs.com/package/asyncsse)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/asyncsse)](https://bundlephobia.com/package/asyncsse)
 
 Fetch Server-Sent Events (SSE) as an async iterable.
 
