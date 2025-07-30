@@ -1,0 +1,28 @@
+<!doctype html>
+<button id="start">Start</button>
+<textarea id="input"></textarea>
+<pre id="output"></pre>
+<script type="module">
+  import {
+    asyncSSE
+  } from "./dist/asyncsse.js";
+  import {
+    fetchText
+  } from "./dist/fetchtext.js";
+  window.fetchText = fetchText;
+  window.asyncSSE = asyncSSE;
+  const output = document.getElementById('output')
+  const btn = document.getElementById('start')
+  window.startSSE = async (options = {}, config = {}) => {
+    output.textContent = 'loading'
+    const text = document.getElementById('input').value
+    const events = []
+    for await (const e of asyncSSE(text, options, {
+      fetch: window.fetch,
+      ...config
+    })) events.push(e)
+    output.textContent = JSON.stringify(events)
+  }
+  btn.addEventListener('click', () => window.startSSE())
+
+</script>
