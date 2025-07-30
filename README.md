@@ -6,8 +6,6 @@
 
 Fetch Server-Sent Events (SSE) as an async iterable.
 
-## Features
-
 - 🚀 Lightweight (<1KB) and dependency-free
 - 🔄 Works with any SSE-compatible API
 - 🌐 Browser and Node.js compatible
@@ -15,8 +13,22 @@ Fetch Server-Sent Events (SSE) as an async iterable.
 
 ## Installation
 
+To use locally, install via `npm`:
+
 ```bash
 npm install asyncsse
+```
+
+... and add this to your script:
+
+```js
+import { asyncSSE } from "./node_modules/asyncsse/dist/asyncsse.js";
+```
+
+To use via CDN, add this to your script:
+
+```js
+import { asyncSSE } from "https://cdn.jsdelivr.net/npm/asyncsse@1";
 ```
 
 ## Usage
@@ -113,7 +125,7 @@ This would output:
 
 **`retry` fields** suggest a reconnection time (in milliseconds). `asyncSSE` itself does not automatically handle reconnection based on this value; it simply parses and provides it. Wait for this duration and reconnect if the connection is lost.
 
-## Example: OpenAI Chat Completions
+### Examples
 
 ```javascript
 import { asyncSSE } from "asyncsse";
@@ -147,7 +159,7 @@ for await (const { data, error } of asyncSSE(url, options, config)) {
 }
 ```
 
-## Testing with Text Input
+### Testing with Text Input
 
 You can directly stream SSE events from a text string using the provided `fetchText` helper:
 
@@ -173,26 +185,28 @@ This outputs:
 
 This is particularly useful for testing SSE parsing without making actual HTTP requests.
 
-## Tests
-
-You can run the tests using Deno:
+## Development
 
 ```bash
-deno test --allow-net
+git clone https://github.com/sanand0/asyncsse.git
+cd asyncsse
+
+npm install
+npm run lint && npm run build && npm test
+
+npm publish
+git commit . -m"$COMMIT_MSG"; git tag $VERSION; git push --follow-tags
 ```
 
-## Changelog
+## Release notes
 
-- 1.3.3: Improved documentation for error handling and added more examples.
-- 1.3.2: Update repo links
-- 1.3.1: Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
-- 1.2.1: Add `config.fetch` parameter for custom fetch implementations
-- 1.1.0: Add `config.onResponse` callback
-- 1.0.0: Initial release
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+- [1.4.0](https://npmjs.com/package/asyncsse/v/1.4.0): 30 Jul 2025. Standardized package.json & README.md
+- [1.3.3](https://npmjs.com/package/asyncsse/v/1.3.3): 9 Jun 2025. Improved documentation for error handling and added more examples.
+- [1.3.2](https://npmjs.com/package/asyncsse/v/1.3.2): 25 Dec 2024. Update repo links
+- [1.3.1](https://npmjs.com/package/asyncsse/v/1.3.1): 3 Nov 2024. Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
+- [1.2.1](https://npmjs.com/package/asyncsse/v/1.2.1): 3 Nov 2024. Add `config.fetch` parameter for custom fetch implementations
+- [1.1.0](https://npmjs.com/package/asyncsse/v/1.1.0): 2 Nov 2024. Add `config.onResponse` callback
+- [1.0.0](https://npmjs.com/package/asyncsse/v/1.0.0): 15 Oct 2024. Initial release
 
 ## License
 

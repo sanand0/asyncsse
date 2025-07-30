@@ -1,10 +1,24 @@
 {
   "name": "asyncsse",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Fetch Server-Sent Events (SSE) as an async iterable",
+  "homepage": "https://github.com/sanand0/asyncsse#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanand0/asyncsse.git"
+  },
+  "license": "MIT",
+  "author": "Anand S <root.node@gmail.com>",
   "type": "module",
-  "main": "dist/asyncsse.js",
-  "module": "dist/asyncsse.js",
+  "module": "asyncsse.js",
+  "prettier": {
+    "printWidth": 120
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/"
+  ],
   "exports": {
     ".": {
       "types": "./dist/asyncsse.d.ts",
@@ -16,12 +30,15 @@
     }
   },
   "scripts": {
-    "test": "deno test --allow-net",
     "build-fetchtext": "npx -y esbuild fetchtext.ts --bundle --minify --format=esm --sourcemap --outfile=dist/fetchtext.js && npx -y --package typescript tsc fetchtext.ts --lib ESNext,DOM --declaration --emitDeclarationOnly --outDir dist",
     "build-asyncsse": "npx -y esbuild asyncsse.ts --bundle --minify --format=esm --sourcemap --outfile=dist/asyncsse.js && npx -y --package typescript tsc asyncsse.ts --lib ESNext,DOM --declaration --emitDeclarationOnly --outDir dist",
     "build": "npm run build-fetchtext && npm run build-asyncsse",
-    "lint": "npx prettier@3.3 --write *.js *.ts *.md",
-    "prepublishOnly": "npm run lint && npm run build"
+    "lint:oxlint": "npx -y oxlint --fix",
+    "lint:js-md": "npx -y prettier@3.5 --print-width 120 --write '**/*.js' '!**/*.min.js' '!dist/**' '**/*.md'",
+    "lint:html": "npx -y js-beautify@1 '**/*.html' --type html --replace --indent-size 2 --max-preserve-newlines 1 --end-with-newline",
+    "lint": "npm run lint:oxlint && npm run lint:js-md && npm run lint:html",
+    "test": "deno test --allow-net",
+    "prepublishOnly": "npm run lint && npm run build && npm test"
   },
   "keywords": [
     "sse",
@@ -35,28 +52,5 @@
     "http-streaming",
     "real-time",
     "eventsource"
-  ],
-  "author": "S Anand <root.node@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sanand0/asyncsse.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sanand0/asyncsse/issues"
-  },
-  "homepage": "https://github.com/sanand0/asyncsse#readme",
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "files": [
-    "README.md",
-    "dist"
-  ],
-  "prettier": {
-    "printWidth": 120
-  },
-  "devDependencies": {},
-  "dependencies": {},
-  "peerDependencies": {}
+  ]
 }
