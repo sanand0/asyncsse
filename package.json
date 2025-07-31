@@ -1,6 +1,6 @@
 {
   "name": "asyncsse",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Fetch Server-Sent Events (SSE) as an async iterable",
   "homepage": "https://github.com/sanand0/asyncsse#readme",
   "repository": {
@@ -19,6 +19,7 @@
     "README.md",
     "dist/"
   ],
+  "browser": "dist/asyncsse.js",
   "exports": {
     ".": {
       "types": "./dist/asyncsse.d.ts",

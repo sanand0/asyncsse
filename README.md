@@ -200,7 +200,7 @@ git commit . -m"$COMMIT_MSG"; git tag $VERSION; git push --follow-tags
 
 ## Release notes
 
-- [1.4.0](https://npmjs.com/package/asyncsse/v/1.4.0): 30 Jul 2025. Standardized package.json & README.md
+- [1.4.1](https://npmjs.com/package/asyncsse/v/1.4.1): 31 Jul 2025. Standardized package.json & README.md
 - [1.3.3](https://npmjs.com/package/asyncsse/v/1.3.3): 9 Jun 2025. Improved documentation for error handling and added more examples.
 - [1.3.2](https://npmjs.com/package/asyncsse/v/1.3.2): 25 Dec 2024. Update repo links
 - [1.3.1](https://npmjs.com/package/asyncsse/v/1.3.1): 3 Nov 2024. Add `fetchText` helper for mocking SSE responses. Add source maps and TypeScript
