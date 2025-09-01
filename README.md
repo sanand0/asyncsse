@@ -13,22 +13,40 @@ Fetch Server-Sent Events (SSE) as an async iterable.
 
 ## Installation
 
+Add this to your script:
+
+```js
+import { asyncSSE } from "asyncsse";
+```
+
+To use via CDN, add this to your HTML file:
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "asyncsse": "https://cdn.jsdelivr.net/npm/asyncsse@1"
+    }
+  }
+</script>
+```
+
 To use locally, install via `npm`:
 
 ```bash
 npm install asyncsse
 ```
 
-... and add this to your script:
+... and add this to your HTML file:
 
-```js
-import { asyncSSE } from "./node_modules/asyncsse/dist/asyncsse.js";
-```
-
-To use via CDN, add this to your script:
-
-```js
-import { asyncSSE } from "https://cdn.jsdelivr.net/npm/asyncsse@1";
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "asyncsse": "./node_modules/asyncsse/dist/asyncsse.js"
+    }
+  }
+</script>
 ```
 
 ## Usage
