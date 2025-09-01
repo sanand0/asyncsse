@@ -2,10 +2,17 @@
 <button id="start">Start</button>
 <textarea id="input"></textarea>
 <pre id="output"></pre>
+<script type="importmap">
+  {
+    "imports": {
+      "asyncsse": "./dist/asyncsse.js"
+    }
+  }
+</script>
 <script type="module">
   import {
     asyncSSE
-  } from "./dist/asyncsse.js";
+  } from "asyncsse";
   import {
     fetchText
   } from "./dist/fetchtext.js";
