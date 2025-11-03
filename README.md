@@ -4,6 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/asyncsse)](https://bundlephobia.com/package/asyncsse)
 
+> [!WARNING]
+> Prefer [parse-sse](https://github.com/sindresorhus/parse-sse) for a standards-compliant, more likely-to-be-maintained alternative.
+
 Fetch Server-Sent Events (SSE) as an async iterable.
 
 - 🚀 Lightweight (<1KB) and dependency-free
